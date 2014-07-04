@@ -1,0 +1,26 @@
+%pre#chat
+:javascript
+  $(function() {
+    // reading
+    var es = new EventSource('/stream');
+    es.onopen = function(e) {
+      console.log('open for business');
+    };
+    es.onmessage = function(e) {
+      $('#chat').append(document.createTextNode(e.data + "\n"));
+    };
+    es.onerror = function(e) {
+      console.log("error!");
+    };
+    
+    // writing
+    $("form").submit(function(e) {
+      $.post('/', {msg: "#{user}: " + $('#msg').val()});
+      $('#msg').val(''); $('#msg').focus();
+      e.preventDefault();
+      console.log("OMFG");
+    });
+  });
+
+%form
+  %input#msg{:placeholder => "type message here..."}
