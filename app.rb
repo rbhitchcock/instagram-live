@@ -17,7 +17,8 @@ get '/listener' do
 end
 
 post '/listener' do
-  puts "PARAMS: #{params.inspect}"
+  pass unless request.accept? 'application/json'
+  puts "PARAMS: #{JSON.parse(request.body.read)}"
 end
 
 post '/' do
