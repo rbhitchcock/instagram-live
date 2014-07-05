@@ -12,7 +12,7 @@
     es.onerror = function(e) {
       console.log("error!");
     };
-    
+
     // writing
     $("form").submit(function(e) {
       $.post('/', {msg: "#{user}: " + $('#msg').val()});
