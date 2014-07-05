@@ -1,8 +1,0 @@
-{
-  "name": "streamer",
-  "version": "0.0.1",
-  "dependencies": {
-    "commoner": "*",
-    "react-tools": ">=0.10.0"
-  }
-}

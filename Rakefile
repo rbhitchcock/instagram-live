@@ -1,14 +1,17 @@
+require 'coffee-script'
+
 PUBLIC_DIR = "public/"
 namespace :assets do
   task :precompile do
-    `npm install`
-    # jsx => js
+    # coffee => js
     js_dir = PUBLIC_DIR << "js/"
     `mkdir -p #{js_dir}`
-    Dir["assets/jsx/*.jsx"].each do |jsx|
-      base = jsx.match(%r{/(\w+)\.jsx$})[1]
+    Dir["assets/coffeescript/*.coffee"].each do |cf|
+      base = cf.match(%r{/(\w+)\.coffee$})[1]
       ofile = js_dir << base <<  ".js"
-      `jsx #{jsx} > #{ofile}`
+      File.open(ofile, 'w') do |file|
+        file.write CoffeeScript.compile(File.read(cf))
+      end
     end
   end
 end
