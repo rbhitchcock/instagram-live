@@ -18,6 +18,7 @@ end
 
 post '/listener' do
   puts request.inspect
+  puts "BODY: #{request.body.read}"
   puts "PARAMS: #{JSON.parse(request.body.read)}"
 end
 
