@@ -1,6 +1,7 @@
 PUBLIC_DIR = "public/"
 namespace :assets do
   task :precompile do
+    `npm install`
     # jsx => js
     js_dir = PUBLIC_DIR << "js/"
     `mkdir -p #{js_dir}`
