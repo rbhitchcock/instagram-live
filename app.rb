@@ -16,6 +16,10 @@ get '/listener' do
   end
 end
 
+post '/listener' do
+  puts "PARAMS: #{params.inspect}"
+end
+
 post '/' do
   settings.connections.each do |out|
     out << "data: #{params[:msg]}\n\n"
