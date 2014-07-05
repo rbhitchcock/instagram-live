@@ -3,6 +3,10 @@ set server: :thin, connections: []
 enable :sessions
 set :haml, format: :html5
 
+ACCESS_TOKEN = ENV['IG_ACCESS_TOKEN']
+CLIENT_ID = ENV['IG_CLIENT_ID']
+CLIENT_SECRET = ENV['IG_CLIENT_SECRET']
+
 get '/stream', provides: 'text/event-stream' do
   stream :keep_open do |out|
     settings.connections << out
