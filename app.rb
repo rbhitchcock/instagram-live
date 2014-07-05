@@ -10,10 +10,10 @@ get '/stream', provides: 'text/event-stream' do
   end
 end
 
-get '/subscription/create' do
-  mode = params[:"hub.mode"]
-  token = params[:"hub.verify_token"]
-  challenge = params[:"hub.challenge"]
+get '/listener' do
+  if params[:"hub.mode"] == "subscribe"
+    params[:"hub.challenge"]
+  end
 end
 
 post '/' do
