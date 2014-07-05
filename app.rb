@@ -10,6 +10,12 @@ get '/stream', provides: 'text/event-stream' do
   end
 end
 
+get '/subscription/create' do
+  mode = params[:"hub.mode"]
+  token = params[:"hub.verify_token"]
+  challenge = params[:"hub.challenge"]
+end
+
 post '/' do
   settings.connections.each do |out|
     out << "data: #{params[:msg]}\n\n"
