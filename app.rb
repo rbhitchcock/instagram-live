@@ -79,10 +79,12 @@ class Streamer < Sinatra::Application
   end
 
   post '/iglistener' do
-    @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
-      handler.on_tag_changed do |tag, data|
-        logger.info "TAG: #{tag.inspect}"
-        logger.info "DATA: #{data.inspect}"
+    fork do
+      @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
+        handler.on_tag_changed do |tag, data|
+          logger.info "TAG: #{tag.inspect}"
+          logger.info "DATA: #{data.inspect}"
+        end
       end
     end
     settings.connections.each do |out|
