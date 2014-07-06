@@ -79,11 +79,11 @@ class Streamer < Sinatra::Application
   end
 
   post '/iglistener' do
-    logger.info "PARAMS: #{params.inspect}"
-    #@client.process_subscription
-    logger.info "BODY: #{request.body.read}"
+    @client.process_subscription(request.body.read, signature: request.headers["X_HUB_SIGNATURE"] do
+      logger.info @changes.inspect
+    end
     settings.connections.each do |out|
-      out << "data: #{params[:msg]}\n\n"
+      out << "data: image processed\n\n"
     end
     204
   end
