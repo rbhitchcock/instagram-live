@@ -79,13 +79,13 @@ class Streamer < Sinatra::Application
   end
 
   get '/iglistener' do
-    logger.info "NOT HERE IS IT?"
     if params[:"hub.mode"] == "subscribe"
       params[:"hub.challenge"]
     end
   end
 
   post '/iglistener' do
+    logger.info "PARAMS: #{params.inspect}"
     #@client.process_subscription
     logger.info "BODY: #{request.body.read}"
     settings.connections.each do |out|
