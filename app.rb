@@ -86,7 +86,7 @@ class Streamer < Sinatra::Application
   end
 
   post '/iglistener' do
-    @client.process_subscription
+    #@client.process_subscription
     logger.info "BODY: #{request.body.read}"
     settings.connections.each do |out|
       out << "data: #{params[:msg]}\n\n"
