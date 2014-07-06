@@ -39,4 +39,4 @@ StreamerApp = React.createClass
     ])
 
 initSession()
-React.renderComponent (StreamerApp {}), document.body
+React.renderComponent (StreamerApp {}), $('div.app')[0]
