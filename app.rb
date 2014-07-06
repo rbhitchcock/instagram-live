@@ -79,7 +79,7 @@ class Streamer < Sinatra::Application
   end
 
   post '/iglistener' do
-    @client.process_subscription(request.body.read, signature: request.headers["X_HUB_SIGNATURE"] do
+    @client.process_subscription request.body.read, signature: request.headers["X_HUB_SIGNATURE"] do
       logger.info @changes.inspect
     end
     settings.connections.each do |out|
