@@ -3,36 +3,41 @@ enable :sessions
 set :haml, format: :html5
 $stdout.sync = true
 
-ACCESS_TOKEN = ENV['IG_ACCESS_TOKEN']
-CLIENT_ID = ENV['IG_CLIENT_ID']
-CLIENT_SECRET = ENV['IG_CLIENT_SECRET']
-
-class Instagram
-  include HTTParty
-  format :json
-  base_uri 'api.instagram.com:443'
-  headers 'X-Requested-With' => "XMLHttpRequest", "X-Target-URI" => "https://api.instagram.com"
-
-  def initialize(access_token)
-    @access_token = access_token
-  end
-
-  def tagged_with(tag, options={})
-    self.class.get "/v1/tags/#{tag}/media/recent?access_token=#{@access_token}"
-  end
-
-  def subscribe_to_tag(tag, callback)
-    self.class.post "/v1/subscriptions/", query: {verify_token: "YADAYADA", client_id: CLIENT_ID, client_secret: CLIENT_SECRET, object: "tag", aspect: "media", object_id: tag, callback_url: callback}
-  end
-
-  def unsubscribe_all
-    self.class.delete "/v1/subscriptions", query: {client_secret: CLIENT_SECRET, client_id: CLIENT_ID, object: "all"}
-  end
-
-  def subscriptions
-    self.class.get "/v1/subscriptions?client_secret=#{CLIENT_SECRET}&client_id=#{CLIENT_ID}"
-  end
+Instagram.configure do |config|
+  config.client_id = ENV['IG_CLIENT_ID']
+  config.client_secret = ENV['IG_CLIENT_SECRET']
 end
+ACCESS_TOKEN = ENV['IG_ACCESS_TOKEN']
+#CLIENT_ID = ENV['IG_CLIENT_ID']
+#CLIENT_SECRET = ENV['IG_CLIENT_SECRET']
+
+#class Instagram
+#  include HTTParty
+#  format :json
+#  base_uri 'api.instagram.com:443'
+#  headers 'X-Requested-With' => "XMLHttpRequest", "X-Target-URI" => "https://api.instagram.com"
+#
+#  def initialize(access_token)
+#    @access_token = access_token
+#  end
+#
+#  def tagged_with(tag, options={})
+#    self.class.get "/v1/tags/#{tag}/media/recent?access_token=#{@access_token}"
+#  end
+#
+#  def subscribe_to_tag(tag, callback)
+#    puts "EHEEHEYEEEY #{callback.inspect}"
+#    self.class.post "/v1/subscriptions", query: {verify_token: "YADAYADA", client_id: CLIENT_ID, client_secret: CLIENT_SECRET, object: "tag", aspect: "media", object_id: tag, callback_url: callback}
+#  end
+#
+#  def unsubscribe_all
+#    self.class.delete "/v1/subscriptions", query: {client_secret: CLIENT_SECRET, client_id: CLIENT_ID, object: "all"}
+#  end
+#
+#  def subscriptions
+#    self.class.get "/v1/subscriptions?client_secret=#{CLIENT_SECRET}&client_id=#{CLIENT_ID}"
+#  end
+#end
 
 class Streamer < Sinatra::Application
   register Sinatra::AssetPack
@@ -62,7 +67,9 @@ class Streamer < Sinatra::Application
     ]
   end
 
-  ig = Instagram.new(ACCESS_TOKEN)
+  before do
+    @client = Instagram.client(access_token: ACCESS_TOKEN)
+  end
 
   get '/subscribe', provides: 'text/event-stream' do
     stream :keep_open do |out|
@@ -78,7 +85,7 @@ class Streamer < Sinatra::Application
   end
 
   post '/iglistener' do
-    puts "BODY: #{request.body.read}"
+    logger.info "BODY: #{request.body.read}"
     settings.connections.each do |out|
       out << "data: #{params[:msg]}\n\n"
     end
@@ -88,7 +95,7 @@ class Streamer < Sinatra::Application
   get '/igsubscribe' do
     callback = params[:url] || "http://intense-atoll-3212.heroku.com/iglistener"
     tag = params[:tag] || "hammersubscriptiontest"
-    ig.subscribe_to_tag(tag, callback)
+    @client.create_subscription callback_url: callback, object: "tag", object_id: tag
   end
 
   get '/igunsubscribe' do
@@ -96,7 +103,7 @@ class Streamer < Sinatra::Application
   end
 
   get '/igsubscriptions' do
-    ig.subscriptions
+    @client.subscriptions
   end
 
   get '/tag/:tag' do

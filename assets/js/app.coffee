@@ -13,6 +13,7 @@ initApp = ->
 
   il = new EventSource('/subscribe')
   il.onmessage = (e) ->
+    console.log ("IN HERE")
     console.log(e.data)
 
 simulatePost = (e) ->
