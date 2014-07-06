@@ -1,6 +1,46 @@
-initSession = ->
+initApp = ->
   if not sessionStorage.getItem("subscriptions")
     sessionStorage.setItem("subscriptions", JSON.stringify([]))
+
+  $('a.toggle-fullscreen').click(toggleFullScreen)
+  $('a.simulate').click(simulatePost)
+  $('.stream').slick({
+    infinite: false,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false
+  })
+
+  il = new EventSource('/subscribe')
+  il.onmessage = (e) ->
+    console.log(e.data)
+
+simulatePost = (e) ->
+  e.preventDefault()
+  $.post('/iglistener', {msg: "HIDEY"})
+
+toggleFullScreen = (e) ->
+  e.preventDefault()
+
+  if !document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement
+    if document.documentElement.requestFullscreen
+      document.documentElement.requestFullscreen()
+    else if document.documentElement.msRequestFullscreen
+      document.documentElement.msRequestFullscreen()
+    else if document.documentElement.mozRequestFullScreen
+      document.documentElement.mozRequestFullScreen()
+    else if document.documentElement.webkitRequestFullscreen
+      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+  else
+    if document.exitFullscreen
+      document.exitFullscreen()
+    else if document.msExitFullscreen
+      document.msExitFullscreen()
+    else if document.mozCancelFullScreen
+      document.mozCancelFullScreen()
+    else if document.webkitExitFullscreen
+      document.webkitExitFullscreen()
+
  
 {div, ul, li, div, h3, form, input, button} = React.DOM
 
@@ -38,5 +78,5 @@ StreamerApp = React.createClass
       ])
     ])
 
-initSession()
-React.renderComponent (StreamerApp {}), $('div.app')[0]
+initApp()
+#React.renderComponent (StreamerApp {}), $('div.app')[0]

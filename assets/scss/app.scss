@@ -38,3 +38,83 @@
 //   "foundation/components/type",
 //   "foundation/components/offcanvas",
 //   "foundation/components/visibility";
+
+//:fullscreen {
+//  background-image: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed;
+//  -webkit-background-size: cover;
+//  -moz-background-size: cover;
+//  -o-background-size: cover;
+//  background-size: cover;
+//}
+//
+//:full-screen {
+//  background-image: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed;
+//  -webkit-background-size: cover;
+//  -moz-background-size: cover;
+//  -o-background-size: cover;
+//  background-size: cover;
+//}
+//
+//:-webkit-full-screen {
+//  background-image: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed;
+//  -webkit-background-size: cover;
+//  -moz-background-size: cover;
+//  -o-background-size: cover;
+//  background-size: cover;
+//}
+//
+:-moz-full-screen body {
+  background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+:-webkit-full-screen body {
+  background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+:full-screen body {
+  background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+:fullscreen body {
+  background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+//:-webkit-full-screen { background: #333; }
+//:-moz-full-screen body { background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed; }
+//:full-screen { background: #333; }
+//:fullscreen { background: #333; }
+
+  /* Styling body element */
+//  body { background: #d00; }
+//:-webkit-full-screen body { background: #66d; }
+//:-moz-full-screen body { background: #62d; }
+//:full-screen body { background: #66d; }
+//:fullscreen body { background: #66d; }
+
+.stream {
+  .image {
+    width: 600px !important;
+    margin-left: 30px;
+  }
+
+  img {
+    width: 600px;
+    height: 600px;
+  }
+}

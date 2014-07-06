@@ -8051,3 +8051,50 @@ th.hide-for-touch {
     display: table-cell !important;
   }
 }
+/* line 66, ../scss/app.scss */
+:-moz-full-screen body {
+  background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* line 74, ../scss/app.scss */
+:-webkit-full-screen body {
+  background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* line 82, ../scss/app.scss */
+:full-screen body {
+  background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* line 90, ../scss/app.scss */
+:fullscreen body {
+  background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* Styling body element */
+/* line 111, ../scss/app.scss */
+.stream .image {
+  width: 600px !important;
+  margin-left: 30px;
+}
+/* line 116, ../scss/app.scss */
+.stream img {
+  width: 600px;
+  height: 600px;
+}
