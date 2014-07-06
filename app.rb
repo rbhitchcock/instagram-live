@@ -20,6 +20,18 @@ class Instagram
   def tagged_with(tag, options={})
     self.class.get "/v1/tags/#{tag}/media/recent?access_token=#{@access_token}"
   end
+
+  def subscribe_to_tag(tag, callback)
+    self.class.post "/v1/subscriptions/", query: {verify_token: "YADAYADA", client_id: CLIENT_ID, client_secret: CLIENT_SECRET, object: "tag", aspect: "media", object_id: tag, callback_url: callback}
+  end
+
+  def unsubscribe_all
+    self.class.delete "/v1/subscriptions", query: {client_secret: CLIENT_SECRET, client_id: CLIENT_ID, object: "all"}
+  end
+
+  def subscriptions
+    self.class.get "/v1/subscriptions?client_secret=#{CLIENT_SECRET}&client_id=#{CLIENT_ID}"
+  end
 end
 
 class Streamer < Sinatra::Application
@@ -50,36 +62,45 @@ class Streamer < Sinatra::Application
     ]
   end
 
+  ig = Instagram.new(ACCESS_TOKEN)
+
   get '/subscribe', provides: 'text/event-stream' do
-    puts params.inspect
     stream :keep_open do |out|
       settings.connections << out
       out.callback { settings.connections.delete out }
     end
   end
 
-  get '/somethingelse' do
-    logger.info params.inspect
-  end
-
-  get '/listener' do
+  get '/iglistener' do
     if params[:"hub.mode"] == "subscribe"
       params[:"hub.challenge"]
     end
   end
 
-  post '/listener' do
-    puts request.inspect
+  post '/iglistener' do
     puts "BODY: #{request.body.read}"
-    puts "PARAMS: #{JSON.parse(request.body.read)}"
     settings.connections.each do |out|
       out << "data: #{params[:msg]}\n\n"
     end
     204
   end
 
+  get '/igsubscribe' do
+    callback = params[:url] || "http://intense-atoll-3212.heroku.com/iglistener"
+    tag = params[:tag] || "hammersubscriptiontest"
+    ig.subscribe_to_tag(tag, callback)
+  end
+
+  get '/igunsubscribe' do
+    ig.unsubscribe_all
+  end
+
+  get '/igsubscriptions' do
+    ig.subscriptions
+  end
+
   get '/tag/:tag' do
-    Instagram.new(ACCESS_TOKEN).tagged_with(params[:tag]).body
+    ig.tagged_with(params[:tag]).body
   end
 
   get '/' do
