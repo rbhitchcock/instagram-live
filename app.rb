@@ -78,12 +78,6 @@ class Streamer < Sinatra::Application
     end
   end
 
-  get '/iglistener' do
-    if params[:"hub.mode"] == "subscribe"
-      params[:"hub.challenge"]
-    end
-  end
-
   post '/iglistener' do
     logger.info "PARAMS: #{params.inspect}"
     #@client.process_subscription
@@ -92,6 +86,12 @@ class Streamer < Sinatra::Application
       out << "data: #{params[:msg]}\n\n"
     end
     204
+  end
+
+  get '/iglistener' do
+    if params[:"hub.mode"] == "subscribe"
+      params[:"hub.challenge"]
+    end
   end
 
   get '/igsubscribe' do
