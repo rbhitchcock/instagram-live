@@ -83,7 +83,7 @@ class Streamer < Sinatra::Application
     fork do
       @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
         handler.on_tag_changed do |tag, data|
-          logger.info(@client.tag_recent_media tag, min_id: session[tag.to_sym][:min_id]).inspect
+          logger.info(@client.tag_recent_media tag, min_id: session[:tags][tag.to_sym][:min_id]).inspect
           logger.info "TAG: #{tag.inspect}"
           logger.info "DATA: #{data.inspect}"
         end
