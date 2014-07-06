@@ -95,7 +95,7 @@ class Streamer < Sinatra::Application
   end
 
   get '/igsubscribe' do
-    callback = params[:url] || "http://intense-atoll-3212.herokapp.com/iglistener"
+    callback = params[:url] || "http://intense-atoll-3212.herokuapp.com/iglistener"
     tag = params[:tag] || "hammersubscriptiontest"
     @client.create_subscription callback_url: callback, object: "tag", object_id: tag
   end
