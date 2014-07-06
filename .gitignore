@@ -1,7 +1,5 @@
 public/*
 .env
 npm-debug.log
-/bower_components/*
 /.sass-cache/*
 *.DS_Store
-/stylesheets/*
