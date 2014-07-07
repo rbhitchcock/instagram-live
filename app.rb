@@ -77,7 +77,7 @@ class Streamer < Sinatra::Application
 
   before do
     @client = Instagram.client(access_token: ACCESS_TOKEN)
-    @session = MEDIA_DATA[session.id.to_sym]
+    @session = MEDIA_DATA[ACCESS_TOKEN.to_sym]
   end
 
   get '/subscribe', provides: 'text/event-stream' do
@@ -93,6 +93,7 @@ class Streamer < Sinatra::Application
       handler.on_tag_changed do |tag, data|
         ig_response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
         unless ig_response.empty?
+          logger.info "SETTING MIN ID"
           @session[:tags][tag.to_sym][:min_id] = ig_response.pagination[:min_tag_id]
         end
       end
