@@ -93,7 +93,6 @@ class Streamer < Sinatra::Application
         response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
         unless response.empty?
           @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
-          end
         end
       end
     end
