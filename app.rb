@@ -132,7 +132,7 @@ class Streamer < Sinatra::Application
       @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
     end
     settings.connections.each do |out|
-      out << "data: #{response.to_json}\n\n"
+      out << "data: #{response.reverse.to_json}\n\n"
     end
     204
   end

@@ -107,14 +107,24 @@
 //:full-screen body { background: #66d; }
 //:fullscreen body { background: #66d; }
 
-.stream {
-  .image {
-    width: 600px !important;
-    margin-left: 30px;
-  }
+.row {
+  max-width: 1900px !important;
+}
 
-  img {
-    width: 600px;
-    height: 600px;
+.app {
+  margin-top: 40px;
+}
+
+.stream {
+  .slick-slide {
+    .image {
+      padding:10px;
+    }
+
+    img {
+      border:5px solid #FFF;
+      display:block;
+      width:100%;
+    }
   }
 }

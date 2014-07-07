@@ -26,6 +26,18 @@ initApp = ->
     console.log(num_images)
     $('.stream').slickGoTo(num_images - 3)
 
+  timer = null
+  $(window).on('mousemove', Foundation.utils.throttle(() ->
+    $('nav').slideDown()
+    try
+      clearTimeout(timer)
+    catch e
+      console.log('error')
+    timer = setTimeout(() ->
+      $('nav').slideUp()
+    , 1000)
+  300))
+
 simulatePost = (e) ->
   e.preventDefault()
   $.post('/uh', {msg: "HIDEY"})
