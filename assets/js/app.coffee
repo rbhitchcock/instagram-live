@@ -16,6 +16,7 @@ initApp = ->
     console.log("error")
 
   il.onmessage = (e) ->
+    console.log(e)
     console.log(JSON.parse(e.data))
 
 simulatePost = (e) ->

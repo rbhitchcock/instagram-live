@@ -96,6 +96,7 @@ class Streamer < Sinatra::Application
         end
       end
     end
+    logger.info "RESPONSE: #{response.to_json.inspect}"
     settings.connections.each do |out|
       out << "data: #{response.to_json}\n\n"
     end
@@ -129,15 +130,7 @@ class Streamer < Sinatra::Application
     response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
     unless response.empty?
       @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
-      fork do
-        call env.merge("PATH_INFO" => "/send")
-      end
     end
-    204
-  end
-
-  get '/send' do
-    logger.info "HIIIIIII"
     settings.connections.each do |out|
       out << "data: #{response.to_json}\n\n"
     end
