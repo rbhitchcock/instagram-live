@@ -12,13 +12,15 @@ initApp = ->
   })
 
   il = new EventSource('/subscribe')
+  il.onerror = (e) ->
+    console.log("error")
+
   il.onmessage = (e) ->
-    console.log ("IN HERE")
-    console.log(e.data)
+    console.log(JSON.parse(e.data))
 
 simulatePost = (e) ->
   e.preventDefault()
-  $.post('/iglistener', {msg: "HIDEY"})
+  $.post('/uh', {msg: "HIDEY"})
 
 toggleFullScreen = (e) ->
   e.preventDefault()

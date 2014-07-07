@@ -67,9 +67,17 @@ class Streamer < Sinatra::Application
     ]
   end
 
+  MEDIA_DATA = Hash.new do |h, k|
+    h[k] = Hash.new do |h, k|
+      h[k] = Hash.new do |h, k|
+        h[k] = {}
+      end
+    end
+  end
+
   before do
     @client = Instagram.client(access_token: ACCESS_TOKEN)
-    session[:tags] ||= Hash.new { |h, k| h[k] = {} }
+    @session = MEDIA_DATA[session.id.to_sym]
   end
 
   get '/subscribe', provides: 'text/event-stream' do
@@ -83,16 +91,16 @@ class Streamer < Sinatra::Application
     fork do
       @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
         handler.on_tag_changed do |tag, data|
-          logger.info(@client.tag_recent_media tag, min_id: session[:tags][tag.to_sym][:min_id]).inspect
-          logger.info "TAG: #{tag.inspect}"
-          logger.info "DATA: #{data.inspect}"
+          response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
+          unless response.empty?
+            @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
+            settings.connections.each do |out|
+              out << "data: #{response.to_json}\n\n"
+            end
+          end
         end
       end
     end
-    settings.connections.each do |out|
-      out << "data: image processed\n\n"
-    end
-    204
   end
 
   get '/iglistener' do
@@ -117,7 +125,16 @@ class Streamer < Sinatra::Application
   end
 
   get '/tag/:tag' do
-    ig.tagged_with(params[:tag]).body
+    tag = params[:tag]
+    @session[:tags][tag.to_sym][:min_id] = nil
+    response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
+    unless response.empty?
+      @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
+      settings.connections.each do |out|
+        out << "data: #{response.to_json}\n\n"
+      end
+    end
+    204
   end
 
   get '/' do
