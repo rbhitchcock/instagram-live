@@ -90,15 +90,14 @@ class Streamer < Sinatra::Application
   post '/iglistener' do
     @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
       handler.on_tag_changed do |tag, data|
-        response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
-        unless response.empty?
-          @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
+        ig_response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
+        unless ig_response.empty?
+          @session[:tags][tag.to_sym][:min_id] = ig_response.pagination[:min_tag_id]
         end
       end
     end
-    logger.info "RESPONSE: #{response.to_json.inspect}"
     settings.connections.each do |out|
-      out << "data: #{response.to_json}\n\n"
+      out << "data: #{ig_response.to_json}\n\n"
     end
     204
   end
