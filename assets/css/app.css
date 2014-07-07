@@ -8733,7 +8733,17 @@ th.hide-for-touch {
     display: table-cell !important;
   }
 }
-/* line 66, ../scss/app.scss */
+@font-face {
+  font-family: ever-after;
+  src: url("/fonts/everafte-webfont.woff");
+}
+
+@font-face {
+  font-family: janda;
+  src: url("/fonts/jandastylishscript-webfont.woff");
+}
+
+/* line 77, ../scss/app.scss */
 :-moz-full-screen body {
   background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
   -webkit-background-size: cover;
@@ -8742,7 +8752,12 @@ th.hide-for-touch {
   background-size: cover;
 }
 
-/* line 74, ../scss/app.scss */
+/* line 85, ../scss/app.scss */
+:-moz-full-screen .logo {
+  margin-top: 100px;
+}
+
+/* line 89, ../scss/app.scss */
 :-webkit-full-screen body {
   background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
   -webkit-background-size: cover;
@@ -8751,7 +8766,12 @@ th.hide-for-touch {
   background-size: cover;
 }
 
-/* line 82, ../scss/app.scss */
+/* line 97, ../scss/app.scss */
+:-webkit-full-screen .logo {
+  margin-top: 100px;
+}
+
+/* line 101, ../scss/app.scss */
 :full-screen body {
   background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
   -webkit-background-size: cover;
@@ -8760,7 +8780,7 @@ th.hide-for-touch {
   background-size: cover;
 }
 
-/* line 90, ../scss/app.scss */
+/* line 109, ../scss/app.scss */
 :fullscreen body {
   background: url("http://laurenandblakewedding.com/assets/images/bg2.jpg") no-repeat center center fixed !important;
   -webkit-background-size: cover;
@@ -8769,24 +8789,42 @@ th.hide-for-touch {
   background-size: cover;
 }
 
-/* Styling body element */
-/* line 110, ../scss/app.scss */
+/* line 117, ../scss/app.scss */
 .row {
   max-width: 1900px !important;
 }
 
-/* line 114, ../scss/app.scss */
+/* line 121, ../scss/app.scss */
 .app {
   margin-top: 40px;
 }
 
-/* line 120, ../scss/app.scss */
+/* line 127, ../scss/app.scss */
 .stream .slick-slide .image {
   padding: 10px;
 }
-/* line 124, ../scss/app.scss */
+/* line 131, ../scss/app.scss */
 .stream .slick-slide img {
   border: 5px solid #FFF;
   display: block;
   width: 100%;
+}
+
+/* line 139, ../scss/app.scss */
+.logo {
+  margin-top: 40px;
+}
+/* line 142, ../scss/app.scss */
+.logo .who {
+  font-family: janda;
+  font-size: 64px;
+  color: #f4e7e1;
+  text-align: center;
+}
+/* line 149, ../scss/app.scss */
+.logo .when {
+  font-family: ever-after;
+  font-size: 64px;
+  text-align: center;
+  color: #f4e7e1;
 }

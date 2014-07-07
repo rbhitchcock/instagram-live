@@ -45,6 +45,7 @@ class Streamer < Sinatra::Application
     serve '/js', from: 'assets/js'
     serve '/bower_components', from: 'bower_components'
     serve '/css', from: 'assets/css'
+    serve '/fonts', from: 'assets/fonts'
 
     js :modernizr, [
       '/bower_components/modernizr/modernizr.js'

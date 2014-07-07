@@ -63,6 +63,17 @@
 //  background-size: cover;
 //}
 //
+
+@font-face {
+  font-family: ever-after;
+  src: url('/fonts/everafte-webfont.woff');
+}
+
+@font-face {
+  font-family: janda;
+  src: url('/fonts/jandastylishscript-webfont.woff');
+}
+
 :-moz-full-screen body {
   background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed !important;
   -webkit-background-size: cover;
@@ -71,12 +82,20 @@
   background-size: cover;
 }
 
+:-moz-full-screen .logo {
+  margin-top: 100px;
+}
+
 :-webkit-full-screen body {
   background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed !important;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+:-webkit-full-screen .logo {
+  margin-top: 100px;
 }
 
 :full-screen body {
@@ -94,18 +113,6 @@
   -o-background-size: cover;
   background-size: cover;
 }
-
-//:-webkit-full-screen { background: #333; }
-//:-moz-full-screen body { background: url('http://laurenandblakewedding.com/assets/images/bg2.jpg') no-repeat center center fixed; }
-//:full-screen { background: #333; }
-//:fullscreen { background: #333; }
-
-  /* Styling body element */
-//  body { background: #d00; }
-//:-webkit-full-screen body { background: #66d; }
-//:-moz-full-screen body { background: #62d; }
-//:full-screen body { background: #66d; }
-//:fullscreen body { background: #66d; }
 
 .row {
   max-width: 1900px !important;
@@ -126,5 +133,23 @@
       display:block;
       width:100%;
     }
+  }
+}
+
+.logo {
+  margin-top: 40px;
+
+  .who {
+    font-family: janda;
+    font-size: 64px;
+    color: rgb(244,231,225);
+    text-align: center;
+  }
+
+  .when {
+    font-family: ever-after;
+    font-size: 64px;
+    text-align: center;
+    color: rgb(244,231,225);
   }
 }

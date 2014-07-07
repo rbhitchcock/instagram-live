@@ -6,6 +6,7 @@ css_dir = "assets/css"
 sass_dir = "assets/scss"
 images_dir = "assets/images"
 javascripts_dir = "assets/js"
+fonts_dir = "assets/fonts"
 add_import_path "bower_components/foundation/scss" # unchanged
 
 # You can select your preferred output style here (can be overridden via the command line):

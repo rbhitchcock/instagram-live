@@ -28,7 +28,7 @@ initApp = ->
 
   timer = null
   $(window).on('mousemove', Foundation.utils.throttle(() ->
-    $('nav').slideDown()
+    $('nav').slideDown(100)
     try
       clearTimeout(timer)
     catch e
