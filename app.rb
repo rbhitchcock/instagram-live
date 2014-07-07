@@ -93,7 +93,6 @@ class Streamer < Sinatra::Application
       handler.on_tag_changed do |tag, data|
         ig_response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
         unless ig_response.empty?
-          logger.info "SETTING MIN ID"
           @session[:tags][tag.to_sym][:min_id] = ig_response.pagination[:min_tag_id]
         end
       end
@@ -127,7 +126,7 @@ class Streamer < Sinatra::Application
 
   get '/tag/:tag' do
     tag = params[:tag]
-    @session[:tags][tag.to_sym][:min_id] = nil
+    #@session[:tags][tag.to_sym][:min_id] = nil
     response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
     unless response.empty?
       @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]

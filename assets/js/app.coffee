@@ -8,16 +8,23 @@ initApp = ->
     infinite: false,
     slidesToShow: 3,
     slidesToScroll: 1,
-    arrows: false
+    arrows: true
   })
 
   il = new EventSource('/subscribe')
   il.onerror = (e) ->
     console.log("error")
 
+  num_images = 0
   il.onmessage = (e) ->
-    console.log(e)
-    console.log(JSON.parse(e.data))
+    images = JSON.parse(e.data)
+    $.each(images, (_, image) ->
+      num_images++
+      url = image.images.standard_resolution.url
+      $('.stream').slickAdd('<div class="image"><img src="'+url+'"/></div>')
+    )
+    console.log(num_images)
+    $('.stream').slickGoTo(num_images - 3)
 
 simulatePost = (e) ->
   e.preventDefault()
@@ -46,7 +53,11 @@ toggleFullScreen = (e) ->
       document.webkitExitFullscreen()
 
  
-{div, ul, li, div, h3, form, input, button} = React.DOM
+{img, div, ul, li, div, h3, form, input, button} = React.DOM
+
+Image = React.createClass
+  render: ->
+    1
 
 SubscriptionList = React.createClass
   render: ->
