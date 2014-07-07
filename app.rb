@@ -88,6 +88,7 @@ class Streamer < Sinatra::Application
   end
 
   post '/iglistener' do
+    ig_response = []
     @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
       handler.on_tag_changed do |tag, data|
         ig_response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
