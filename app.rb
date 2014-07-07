@@ -88,19 +88,19 @@ class Streamer < Sinatra::Application
   end
 
   post '/iglistener' do
-    fork do
-      @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
-        handler.on_tag_changed do |tag, data|
-          response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
-          unless response.empty?
-            @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
-            settings.connections.each do |out|
-              out << "data: #{response.to_json}\n\n"
-            end
+    @client.process_subscription request.body.read, signature: env["HTTP_X_HUB_SIGNATURE"] do |handler|
+      handler.on_tag_changed do |tag, data|
+        response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
+        unless response.empty?
+          @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
           end
         end
       end
     end
+    settings.connections.each do |out|
+      out << "data: #{response.to_json}\n\n"
+    end
+    204
   end
 
   get '/iglistener' do
@@ -130,9 +130,17 @@ class Streamer < Sinatra::Application
     response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
     unless response.empty?
       @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
-      settings.connections.each do |out|
-        out << "data: #{response.to_json}\n\n"
+      fork do
+        call env.merge("PATH_INFO" => "/send")
       end
+    end
+    204
+  end
+
+  get '/send' do
+    logger.info "HIIIIIII"
+    settings.connections.each do |out|
+      out << "data: #{response.to_json}\n\n"
     end
     204
   end
