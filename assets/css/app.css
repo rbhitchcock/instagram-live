@@ -8088,3 +8088,13 @@ th.hide-for-touch {
 }
 
 /* Styling body element */
+/* line 111, ../scss/app.scss */
+.stream .image {
+  width: 600px !important;
+  margin-left: 30px;
+}
+/* line 116, ../scss/app.scss */
+.stream img {
+  width: 600px;
+  height: 600px;
+}
