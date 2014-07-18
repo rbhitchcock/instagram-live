@@ -112,6 +112,7 @@ class Streamer < Sinatra::Application
   end
 
   get '/iglistener' do
+    logger.info "HI HI HI #{params.inspect}"
     @client.meet_challenge params
   end
 
