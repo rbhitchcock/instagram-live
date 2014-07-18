@@ -8,6 +8,7 @@ Instagram.configure do |config|
   config.client_secret = ENV['IG_CLIENT_SECRET']
 end
 ACCESS_TOKEN = ENV['IG_ACCESS_TOKEN']
+VERIFY_TOKEN = "WEEEEEEEE"
 #CLIENT_ID = ENV['IG_CLIENT_ID']
 #CLIENT_SECRET = ENV['IG_CLIENT_SECRET']
 
@@ -97,6 +98,12 @@ class Streamer < Sinatra::Application
           @session[:tags][tag.to_sym][:min_id] = ig_response.pagination[:min_tag_id]
         end
       end
+      handler.on_geography_changed do |geo, data|
+        ig_response = @client.geography_recent_media geo, min_id: @session[:geos][geo.to_sym][:min_id]
+        unless ig_response.empty?
+          @session[:geos][geo.to_sym][:min_id] = ig_response.pagination[:min_geography_id]
+        end
+      end
     end
     settings.connections.each do |out|
       out << "data: #{ig_response.to_json}\n\n"
@@ -105,15 +112,30 @@ class Streamer < Sinatra::Application
   end
 
   get '/iglistener' do
-    if params[:"hub.mode"] == "subscribe"
-      params[:"hub.challenge"]
-    end
+    @client.meet_challenge params, VERIFY_TOKEN
   end
 
-  get '/igsubscribe' do
+  get '/igsubscribe/:object' do
     callback = params[:url] || "http://intense-atoll-3212.herokuapp.com/iglistener"
-    tag = params[:tag] || "hammersubscriptiontest"
-    @client.create_subscription callback_url: callback, object: "tag", object_id: tag
+    aspect = "media"
+    case params[:object]
+    when "tag"
+      tag = params[:tag] || "hammersubscriptiontest"
+      @client.create_subscription verify_token: VERIFY_TOKEN, callback_url: callback, object: "tag", object_id: tag
+    when "geography"
+      lat = params[:lat]
+      lng = params[:lng]
+      radius = params[:radius]
+      if lat.nil? or lng.nil? or radius.nil?
+        raise ArgumentError
+      end
+      @client.create_subscription verify_token: VERIFY_TOKEN, callback_url: callback, object: "geography", lat: lat, lng: lng, radius: radius
+    when "user"
+      # implement later
+    else
+      tag = params[:tag] || "hammersubscriptiontest"
+      @client.create_subscription verify_token: VERIFY_TOKEN, callback_url: callback, object: "tag", object_id: tag
+    end
   end
 
   get '/igunsubscribe' do
@@ -121,8 +143,7 @@ class Streamer < Sinatra::Application
   end
 
   get '/igsubscriptions' do
-    logger.info @client.subscriptions.inspect
-    200
+    @client.subscriptions.to_json
   end
 
   get '/tag/:tag' do
@@ -133,7 +154,7 @@ class Streamer < Sinatra::Application
       @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
     end
     settings.connections.each do |out|
-      out << "data: #{response.reverse.to_json}\n\n"
+      out << "data: #{response.to_json}\n\n"
     end
     204
   end
