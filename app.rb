@@ -112,9 +112,8 @@ class Streamer < Sinatra::Application
   end
 
   get '/iglistener' do
-    logger.info "HI HI HI #{@client.meet_challenge(params).inspect}"
     logger.info "Ho Ho Ho #{@client.meet_challenge(params, VERIFY_TOKEN).inspect}"
-    params["hub.challenge"]
+    @client.meet_challenge params, VERIFY_TOKEN
   end
 
   get '/igsubscribe/:object' do
@@ -136,7 +135,7 @@ class Streamer < Sinatra::Application
       # implement later
     else
       tag = params[:tag] || "hammersubscriptiontest"
-      @client.create_subscription callback_url: callback, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
+      #@client.create_subscription callback_url: callback, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
     end
   end
 
