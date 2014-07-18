@@ -113,7 +113,7 @@ class Streamer < Sinatra::Application
 
   get '/iglistener' do
     #@client.meet_challenge params, VERIFY_TOKEN
-    params[:"hub.challenge"]
+    params["hub.challenge"]
   end
 
   get '/igsubscribe/:object' do
