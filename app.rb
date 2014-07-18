@@ -112,8 +112,9 @@ class Streamer < Sinatra::Application
   end
 
   get '/iglistener' do
-    logger.info "HI HI HI #{params.inspect}"
-    @client.meet_challenge params
+    logger.info "HI HI HI #{@client.meet_challenge(params).inspect}"
+    logger.info "Ho Ho Ho #{@client.meet_challenge(params, VERIFY_TOKEN).inspect}"
+    params["hub.challenge"]
   end
 
   get '/igsubscribe/:object' do
