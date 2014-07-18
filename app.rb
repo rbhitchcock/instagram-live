@@ -99,7 +99,7 @@ class Streamer < Sinatra::Application
         end
       end
       handler.on_geography_changed do |geo, data|
-        ig_response = @client.geography_recent_media geo, min_id: @session[:geos][geo.to_sym][:min_id]
+        ig_response = @client.geography_recent_media geo, min_id: @session[:geos][geo.to_sym][:min_id], client_id: @client.client_id
         unless ig_response.empty?
           @session[:geos][geo.to_sym][:min_id] = ig_response.pagination[:min_geography_id]
         end
