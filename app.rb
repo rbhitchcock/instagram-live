@@ -122,7 +122,7 @@ class Streamer < Sinatra::Application
     case params[:object]
     when "tag"
       tag = params[:tag] || "hammersubscriptiontest"
-      @client.create_subscription callback_url: callback, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
+      @client.create_subscription callback_url: callback, aspect: apsect, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
     when "geography"
       lat = params[:lat]
       lng = params[:lng]
