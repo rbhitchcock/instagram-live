@@ -122,7 +122,7 @@ class Streamer < Sinatra::Application
     case params[:object]
     when "tag"
       tag = params[:tag] || "hammersubscriptiontest"
-      @client.create_subscription verify_token: VERIFY_TOKEN, callback_url: callback, object: "tag", object_id: tag
+      @client.create_subscription callback_url: callback, object: "tag", object_id: tag
     when "geography"
       lat = params[:lat]
       lng = params[:lng]
@@ -130,12 +130,12 @@ class Streamer < Sinatra::Application
       if lat.nil? or lng.nil? or radius.nil?
         raise ArgumentError
       end
-      @client.create_subscription verify_token: VERIFY_TOKEN, callback_url: callback, object: "geography", lat: lat, lng: lng, radius: radius
+      @client.create_subscription callback_url: callback, object: "geography", lat: lat, lng: lng, radius: radius
     when "user"
       # implement later
     else
       tag = params[:tag] || "hammersubscriptiontest"
-      @client.create_subscription verify_token: VERIFY_TOKEN, callback_url: callback, object: "tag", object_id: tag
+      @client.create_subscription callback_url: callback, object: "tag", object_id: tag
     end
   end
 
