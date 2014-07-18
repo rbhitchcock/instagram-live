@@ -120,7 +120,10 @@ class Streamer < Sinatra::Application
     callback = params[:url] || "http://intense-atoll-3212.herokuapp.com/iglistener"
     aspect = "media"
     tag = params[:tag] || "hammersubscriptiontest"
-    @client.create_subscription callback_url: callback, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
+    Thread.new do |t|
+      @client.create_subscription callback_url: callback, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
+      t.exit
+    end
     return
     case params[:object]
     when "tag"
