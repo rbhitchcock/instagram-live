@@ -112,23 +112,13 @@ class Streamer < Sinatra::Application
   end
 
   get '/iglistener' do
-    logger.info "Ho Ho Ho #{@client.meet_challenge(params, VERIFY_TOKEN).inspect}"
     @client.meet_challenge params, VERIFY_TOKEN
   end
 
   get '/igsubscribe/:object' do
     callback = params[:url] || "http://intense-atoll-3212.herokuapp.com/iglistener"
     aspect = "media"
-    tag = params[:tag] || "hammersubscriptiontest"
-    Thread.new do |t|
-      @client.create_subscription callback_url: callback, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
-      t.exit
-    end
-    return
     case params[:object]
-    when "tag"
-      tag = params[:tag] || "hammersubscriptiontest"
-      @client.create_subscription callback_url: callback, aspect: aspect, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
     when "geography"
       lat = params[:lat]
       lng = params[:lng]
@@ -136,12 +126,17 @@ class Streamer < Sinatra::Application
       if lat.nil? or lng.nil? or radius.nil?
         raise ArgumentError
       end
-      @client.create_subscription callback_url: callback, object: "geography", lat: lat, lng: lng, radius: radius, verify_token: VERIFY_TOKEN
+      args = {lat: lat, lng: lng, radius: radius}
     when "user"
       # implement later
     else
       tag = params[:tag] || "hammersubscriptiontest"
-      #@client.create_subscription callback_url: callback, object: "tag", object_id: tag, verify_token: VERIFY_TOKEN
+      args = {object_id: tag}
+    end
+    base_args = {callback_urL: callback, object: params[:object], verify_token: VERIFY_TOKEN}
+    Thread.new do |t|
+      @client.create_subscription base_args.merge(args)
+      t.exit
     end
   end
 
