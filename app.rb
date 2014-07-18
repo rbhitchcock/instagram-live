@@ -133,7 +133,7 @@ class Streamer < Sinatra::Application
       tag = params[:tag] || "hammersubscriptiontest"
       args = {object_id: tag}
     end
-    base_args = {callback_urL: callback, object: params[:object], verify_token: VERIFY_TOKEN}
+    base_args = {object: params[:object], callback_url: callback, aspect: "media", verify_token: VERIFY_TOKEN}
     Thread.new do |t|
       @client.create_subscription base_args.merge(args)
       t.exit
