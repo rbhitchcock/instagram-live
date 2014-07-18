@@ -140,8 +140,8 @@ class Streamer < Sinatra::Application
     end
   end
 
-  get '/igunsubscribe' do
-    ig.unsubscribe_all
+  get '/igunsubscribe/:id' do
+    @client.delete_subscription params[:id]
   end
 
   get '/igsubscriptions' do
@@ -150,7 +150,6 @@ class Streamer < Sinatra::Application
 
   get '/tag/:tag' do
     tag = params[:tag]
-    #@session[:tags][tag.to_sym][:min_id] = nil
     response = @client.tag_recent_media tag, min_id: @session[:tags][tag.to_sym][:min_id]
     unless response.empty?
       @session[:tags][tag.to_sym][:min_id] = response.pagination[:min_tag_id]
