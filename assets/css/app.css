@@ -8754,7 +8754,7 @@ th.hide-for-touch {
 
 /* line 85, ../scss/app.scss */
 :-moz-full-screen .logo {
-  margin-top: 100px;
+  margin-top: 75px;
 }
 
 /* line 89, ../scss/app.scss */
@@ -8800,28 +8800,33 @@ th.hide-for-touch {
 }
 
 /* line 127, ../scss/app.scss */
-.stream .slick-slide .image {
-  padding: 10px;
-}
-/* line 131, ../scss/app.scss */
 .stream .slick-slide img {
   border: 5px solid #FFF;
   display: block;
   width: 100%;
 }
+/* line 134, ../scss/app.scss */
+.stream .slick-slide:last-child {
+  padding-right: 10px;
+}
+/* line 138, ../scss/app.scss */
+.stream .slick-slide:nth-last-child(3) {
+  margin-right: -20px;
+  padding-left: 10px;
+}
 
-/* line 139, ../scss/app.scss */
+/* line 144, ../scss/app.scss */
 .logo {
   margin-top: 40px;
 }
-/* line 142, ../scss/app.scss */
+/* line 147, ../scss/app.scss */
 .logo .who {
   font-family: janda;
   font-size: 64px;
   color: #f4e7e1;
   text-align: center;
 }
-/* line 149, ../scss/app.scss */
+/* line 154, ../scss/app.scss */
 .logo .when {
   font-family: ever-after;
   font-size: 64px;

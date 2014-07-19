@@ -122,10 +122,6 @@
   margin-top: 40px;
 }
 
-.image {
-  padding: 30px !important;
-}
-
 .stream {
   .slick-slide {
     img {
@@ -133,6 +129,15 @@
       display:block;
       width:100%;
     }
+  }
+
+  .slick-slide:last-child {
+    padding-right: 10px;
+  }
+
+  .slick-slide:nth-last-child(3) {
+    margin-right: -20px;
+    padding-left: 10px;
   }
 }
 
