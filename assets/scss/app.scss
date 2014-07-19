@@ -122,11 +122,11 @@
   margin-top: 40px;
 }
 
-.stream {
-  .image {
-    padding:30px;
-  }
+.image {
+  padding: 30px !important;
+}
 
+.stream {
   .slick-slide {
     img {
       border:5px solid #FFF;
