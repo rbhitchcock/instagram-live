@@ -117,7 +117,7 @@ class Streamer < Sinatra::Application
   end
 
   get '/igsubscribe/:object' do
-    callback = params[:url] || "http://intense-atoll-3212.herokuapp.com/iglistener"
+    callback = params[:url]
     aspect = "media"
     case params[:object]
     when "geography"
